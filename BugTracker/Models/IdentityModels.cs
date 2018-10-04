@@ -14,6 +14,8 @@ namespace BugTracker.Models
         public string LastName { get; set; }
         public string DisplayName { get; set; }
 
+        public string Name { get; set; }
+
         public ApplicationUser()
         {
             Projects = new HashSet<Project>();
@@ -43,6 +45,7 @@ namespace BugTracker.Models
         }
 
         public DbSet<Project> Projects { get; set; }
+
     }
 
 }

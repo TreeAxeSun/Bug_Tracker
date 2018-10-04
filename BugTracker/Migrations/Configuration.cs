@@ -28,7 +28,7 @@ namespace BugTracker.Migrations
 
             if (!context.Roles.Any(r => r.Name == "ProjectManager"))
             {
-                roleManager.Create(new IdentityRole { Name = "Project Manager" });
+                roleManager.Create(new IdentityRole { Name = "ProjectManager" });
             }
 
             if (!context.Roles.Any(r => r.Name == "Developer"))
@@ -41,33 +41,58 @@ namespace BugTracker.Migrations
                 roleManager.Create(new IdentityRole { Name = "Submitter" });
             }
 
-            if (!context.Users.Any(p => p.Email == "adminUser@bugtracker.com"))
+            if (!context.Users.Any(p => p.Email == "admin@tracker.com"))
             {
                 userManager.Create(new ApplicationUser
                 {
-                    UserName = "adminUser@bugtracker",
-                    Email = "adminUser@bugtracker",
+                    UserName = "admi@tracker.com",
+                    Email = "admin@tracker.com",
                     FirstName = "YS",
                     LastName = "Ahn",
                     DisplayName = "Master"
-                }, "AdminUser@1");
+                }, "Adminuser@1");
             }
 
-            if (!context.Users.Any(p => p.Email == "pmUser@bugtracker.com"))
+            if (!context.Users.Any(p => p.Email == "projectM@tracker.com"))
             {
                 userManager.Create(new ApplicationUser
                 {
-                    UserName = "pmUser@bugtracker.com",
-                    Email = "pmUser@bugtracker.com",
-                    FirstName = "YS",
-                    LastName = "Ahn",
-                    DisplayName = "Project Manager"
-                }, "pmUser@1");
+                    UserName = "projectM@naver.com",
+                    Email = "projectM@naver.com",
+                    FirstName = "Sophia",
+                    LastName = "Lee",
+                    DisplayName = "Sophie"
+                }, "ProjectM@1");
             }
 
-            var adminId = userManager.FindByEmail("adminUser@bugtracker.com").Id;
+            var adminId = userManager.FindByEmail("admin@tracker.com").Id;
             userManager.AddToRole(adminId, "Admin");
+
+
+            var PMId = userManager.FindByEmail("projectM@tracker.com").Id;
+            userManager.AddToRole(PMId, "ProjectManager");
 
         }
     }
 }
+
+
+//ApplicationUser adminUser;
+
+//if (!context.Users.Any(r => r.UserName == "adminUser@tracker.com"))
+//{
+//    adminUser = new ApplicationUser();
+//    adminUser.Email = "adminUser@tracker.com";
+//    adminUser.UserName = "adminUser@tracker.com";
+
+//    userManager.Create(adminUser, "Password-1");
+//}
+//else
+//{
+//    adminUser = context.Users.First(r => r.UserName == "adminUser@tracker.com");
+//}
+
+//if (!userManager.IsInRole(adminUser.Id, "Admin"))
+//{
+//    userManager.AddToRole(adminUser.Id, "Admin");
+//}
