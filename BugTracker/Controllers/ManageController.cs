@@ -254,13 +254,12 @@ namespace BugTracker.Controllers
             {
                 model.FirstName = user.FirstName;
                 model.LastName = user.LastName;
-                model.DisplayName = user.FirstName + " " + user.LastName;
+                model.FullName = user.FullName;
                 return View(model);
             }
             else
             {
-                return RedirectToAction("Index"); // added message into definition of ManageMessageId
-                // new { Message = ManageMessageId.ChangeNameSuccess }
+                return RedirectToAction("Index"); 
             }
         }
 
@@ -279,7 +278,7 @@ namespace BugTracker.Controllers
             {
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
-                user.DisplayName = model.DisplayName;
+                user.FullName = model.FullName;
                 UserManager.Update(user);
             }
             return RedirectToAction("Index", new { Message = ManageMessageId.ChangeNameSuccess });

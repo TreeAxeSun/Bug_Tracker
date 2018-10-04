@@ -70,8 +70,8 @@ namespace BugTracker.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Display(Name = "Display Name")]
-        public string DisplayName { get; set; }
+        [Display(Name = "Full Name")]
+        public string FullName { get; set; }
     }
 
 

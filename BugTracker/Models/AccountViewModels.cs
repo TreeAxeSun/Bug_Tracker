@@ -14,7 +14,7 @@ namespace BugTracker.Models
         [Required]
         public string LastName { get; set; }
         [Required]
-        public string DisplayName { get; set; }
+        public string FullName { get; set; }
     }
 
     public class ExternalLoginListViewModel
@@ -94,7 +94,7 @@ namespace BugTracker.Models
         public string LastName { get; set; }
 
         [Required]
-        public string DisplayName { get; set; }
+        public string FullName { get; set; }
 
     }
 

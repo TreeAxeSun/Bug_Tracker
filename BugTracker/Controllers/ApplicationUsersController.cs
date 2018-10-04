@@ -33,7 +33,7 @@ namespace BugTracker.Controllers
             var user = userManager.FindById(id);
 
             model.Id = id;
-            model.Name = user.DisplayName;
+            model.Name = user.FullName;
 
             var Roles = roleManager.Roles.ToList();
             var userRoles = userManager.GetRoles(id);
