@@ -11,7 +11,7 @@ using BugTracker.Models;
 
 namespace BugTracker.Controllers
 {
-    [Authorize "Admin,ProjectManager"]
+    
     public class ProjectsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -37,12 +37,14 @@ namespace BugTracker.Controllers
             return View(project);
         }
 
+        [Authorize(Roles = "Admin,ProjectManager")]
         // GET: Projects/Create
         public ActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin,ProjectManager")]
         // POST: Projects/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -60,6 +62,7 @@ namespace BugTracker.Controllers
             return View(project);
         }
 
+        [Authorize(Roles = "Admin,ProjectManager")]
         // GET: Projects/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -75,6 +78,7 @@ namespace BugTracker.Controllers
             return View(project);
         }
 
+        [Authorize(Roles = "Admin,ProjectManager")]
         // POST: Projects/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -91,6 +95,7 @@ namespace BugTracker.Controllers
             return View(project);
         }
 
+        [Authorize(Roles = "Admin,ProjectManager")]
         // GET: Projects/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -106,6 +111,7 @@ namespace BugTracker.Controllers
             return View(project);
         }
 
+        [Authorize(Roles = "Admin,ProjectManager")]
         // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -117,7 +123,7 @@ namespace BugTracker.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [Authorize(Roles = "Admin,ProjectManager")]
         public ActionResult AssignUsers(int id)
         {
             var model = new ProjectAssignViewModel();
@@ -133,6 +139,7 @@ namespace BugTracker.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin,ProjectManager")]
         [HttpPost]
         public ActionResult AssignUsers(ProjectAssignViewModel model)
         {
