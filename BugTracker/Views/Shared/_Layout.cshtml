@@ -65,10 +65,16 @@
                     <li>
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
-                            <a href="@Url.Action("Index", "ApplicationUsers")"><i class="fa fa-fw fa-edit"></i> Change Roles</a>
+                            <a href="@Url.Action("Index", "ApplicationUsers")"><i class="fa fa-fw fa-male"></i> Change Roles</a>
                         }
                     </li>
                     <li>
+                        <a href="@Url.Action("Index","Projects")"><i class="fa fa-fw fa-archive"></i> Projects</a>
+                    </li>
+                    @*<li>
+                        <a href="@Url.Action("Contact","Home")"><i class="fa fa-fw fa-archive"></i> Contact</a>
+                    </li>*@
+                    @*<li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
@@ -78,13 +84,7 @@
                                 <a href="#">Dropdown Item</a>
                             </li>
                         </ul>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index","Projects")"><i class="fa fa-fw fa-print"></i> Projects</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Contact","Home")"><i class="fa fa-fw fa-archive"></i> Contact</a>
-                    </li>
+                    </li>*@
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
