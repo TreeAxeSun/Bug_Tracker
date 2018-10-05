@@ -11,7 +11,7 @@ using BugTracker.Models;
 
 namespace BugTracker.Controllers
 {
-    [Authorize]
+    [Authorize "Admin,ProjectManager"]
     public class ProjectsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -117,6 +117,7 @@ namespace BugTracker.Controllers
             return RedirectToAction("Index");
         }
 
+
         public ActionResult AssignUsers(int id)
         {
             var model = new ProjectAssignViewModel();
@@ -127,7 +128,7 @@ namespace BugTracker.Controllers
             var users = db.Users.ToList();
             var userIdsAssignedToProject = project.Users.Select(p => p.Id).ToList();
 
-            model.UserList = new MultiSelectList(users, "Id", "Name", userIdsAssignedToProject);
+            model.UserList = new MultiSelectList(users, "Id", "FullName", userIdsAssignedToProject);
 
             return View(model);
         }

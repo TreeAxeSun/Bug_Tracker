@@ -64,12 +64,42 @@ namespace BugTracker.Migrations
                 }, "ProjectM@1");
             }
 
+            if (!context.Users.Any(p => p.Email == "developer@tracker.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "developer@tracker.com",
+                    Email = "developer@tracker.com",
+                    FirstName = "Delphie",
+                    LastName = "Lee",
+                    FullName = "Delphie Lee"
+                }, "Developer@1");
+            }
+
+            if (!context.Users.Any(p => p.Email == "submitter@tracker.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "submitter@tracker.com",
+                    Email = "submitter@tracker.com",
+                    FirstName = "Yuphie",
+                    LastName = "Lee",
+                    FullName = "Yuphie Lee"
+                }, "Submitter@1");
+            }
+
+
             var adminId = userManager.FindByEmail("admin@tracker.com").Id;
             userManager.AddToRole(adminId, "Admin");
 
-
             var PMId = userManager.FindByEmail("projectM@tracker.com").Id;
             userManager.AddToRole(PMId, "ProjectManager");
+
+            var developerId = userManager.FindByEmail("developer@tracker.com").Id;
+            userManager.AddToRole(developerId, "Developer");
+
+            var submitterId = userManager.FindByEmail("submitter@tracker.com").Id;
+            userManager.AddToRole(submitterId, "Submitter");
         }
     }
 }
