@@ -21,6 +21,10 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+    {
+        <a href="@Url.Action("Edit", "Projects", new { id = Model.Id })">Edit | </a>
+    }
+
     @Html.ActionLink("Back to List", "Index")
 </p>
