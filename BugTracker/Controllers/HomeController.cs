@@ -16,7 +16,7 @@ namespace BugTracker.Controllers
         {
             return View();
         }
-
+      
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -62,9 +62,6 @@ namespace BugTracker.Controllers
         {
             EmailModel model = new EmailModel();
             return View(model);
-
-            //ViewBag.Message = "Your contact page.";
-            //return View();
         }
     }
 }

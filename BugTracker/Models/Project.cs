@@ -17,4 +17,11 @@ namespace BugTracker.Models
             Users = new HashSet<ApplicationUser>();
         }
     }
+
+    public class NumofProjects
+    {
+        public int Id { get; set; }
+        public Array[] projectsArray { get; set; }
+        public int NumOfProjects { get; set; }
+    }
 }
