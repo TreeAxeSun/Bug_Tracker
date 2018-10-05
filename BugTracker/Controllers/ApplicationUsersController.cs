@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using BugTracker.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace BugTracker.Controllers
 {
@@ -65,6 +66,11 @@ namespace BugTracker.Controllers
             {
                 userManager.AddToRole(model.Id, role);
             }
+
+            //STEP 5: Refresh authentication cookies so the roles are updated instantly
+
+            var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            signInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
 
             return RedirectToAction("Index");
         }

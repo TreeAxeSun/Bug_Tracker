@@ -62,9 +62,12 @@
                     <li class="active">
                         <a href="@Url.Action("Index","Home")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
-                    <li>
-                        <a href="@Url.Action("Index", "ApplicationUsers")"><i class="fa fa-fw fa-edit"></i> Change Roles</a>
-                    </li>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a href="@Url.Action("Index", "ApplicationUsers")"><i class="fa fa-fw fa-edit"></i> Change Roles</a>
+                        </li>
+                    }
 
                     @*<li>
             <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
@@ -93,10 +96,10 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="@Url.Action("Index","Projects")"><i class="fa fa-fw fa-file"></i> Projects</a>
+                        <a href="@Url.Action("Index","Projects")"><i class="fa fa-fw fa-print"></i> Projects</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("Contact","Home")"><i class="fa fa-fw fa-file"></i> Contact</a>
+                        <a href="@Url.Action("Contact","Home")"><i class="fa fa-fw fa-archive"></i> Contact</a>
                     </li>
                 </ul>
             </div>

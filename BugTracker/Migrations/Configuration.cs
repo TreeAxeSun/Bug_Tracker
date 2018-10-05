@@ -1,5 +1,8 @@
 namespace BugTracker.Migrations
 {
+    using BugTracker.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -14,10 +17,59 @@ namespace BugTracker.Migrations
 
         protected override void Seed(BugTracker.Models.ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data.
+            if (!context.Roles.Any(r => r.Name == "Admin"))
+            {
+                roleManager.Create(new IdentityRole { Name = "Admin" });
+            }
+
+            if (!context.Roles.Any(r => r.Name == "ProjectManager"))
+            {
+                roleManager.Create(new IdentityRole { Name = "ProjectManager" });
+            }
+
+            if (!context.Roles.Any(r => r.Name == "Developer"))
+            {
+                roleManager.Create(new IdentityRole { Name = "Developer" });
+            }
+
+            if (!context.Roles.Any(r => r.Name == "Submitter"))
+            {
+                roleManager.Create(new IdentityRole { Name = "Submitter" });
+            }
+
+            if (!context.Users.Any(p => p.Email == "admin@tracker.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "admin@tracker.com",
+                    Email = "admin@tracker.com",
+                    FirstName = "YS",
+                    LastName = "Ahn",
+                    FullName = "YS Ahn"
+                }, "Adminuser@1");
+            }
+
+            if (!context.Users.Any(p => p.Email == "projectM@tracker.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "projectM@tracker.com",
+                    Email = "projectM@tracker.com",
+                    FirstName = "Sophie",
+                    LastName = "Lee",
+                    FullName = "Sophie Lee"
+                }, "ProjectM@1");
+            }
+
+            var adminId = userManager.FindByEmail("admin@tracker.com").Id;
+            userManager.AddToRole(adminId, "Admin");
+
+
+            var PMId = userManager.FindByEmail("projectM@tracker.com").Id;
+            userManager.AddToRole(PMId, "ProjectManager");
         }
     }
 }
