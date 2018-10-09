@@ -14,12 +14,15 @@ namespace BugTracker.Models
         public string LastName { get; set; }
         public string FullName { get; set; }
 
+        public virtual ICollection<Project> Projects { get; set; }
+        
+
         public ApplicationUser()
         {
             Projects = new HashSet<Project>();
         }
 
-        public virtual ICollection<Project> Projects { get; set; }
+        
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -44,6 +47,7 @@ namespace BugTracker.Models
 
         public DbSet<Project> Projects { get; set; }
 
-    }
+        public DbSet<Ticket> Tickets { get; set; }
 
+    }
 }
