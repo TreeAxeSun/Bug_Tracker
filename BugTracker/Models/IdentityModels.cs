@@ -15,11 +15,15 @@ namespace BugTracker.Models
         public string FullName { get; set; }
 
         public virtual ICollection<Project> Projects { get; set; }
-        
+        public virtual ICollection<TicketComment> TicketComments { get; set; }
+        public virtual ICollection<TicketAttachment> TicketAttachments { get; set; }
 
+     
         public ApplicationUser()
         {
             Projects = new HashSet<Project>();
+            TicketComments = new HashSet<TicketComment>();
+            TicketAttachments = new HashSet<TicketAttachment>();
         }
 
         
@@ -49,5 +53,14 @@ namespace BugTracker.Models
 
         public DbSet<Ticket> Tickets { get; set; }
 
+        public DbSet<TicketPriority> TicketPriorities { get; set; }
+
+        public DbSet<TicketStatus> TicketStatus { get; set; }
+
+        public DbSet<TicketType> TicketTypes { get; set; }
+
+        public DbSet<TicketComment> TicketComments { get; set; }
+
+        public DbSet<TicketAttachment> TicketAttachments { get; set; }
     }
 }

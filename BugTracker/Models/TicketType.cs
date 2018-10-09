@@ -16,6 +16,5 @@ namespace BugTracker.Models
         {
             Tickets = new HashSet<Ticket>();
         }
-
     }
 }
