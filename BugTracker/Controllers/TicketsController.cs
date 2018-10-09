@@ -10,6 +10,7 @@ using BugTracker.Models;
 
 namespace BugTracker.Controllers
 {
+    [Authorize]
     public class TicketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -34,6 +35,7 @@ namespace BugTracker.Controllers
             }
             return View(ticket);
         }
+
 
         // GET: Tickets/Create
         public ActionResult Create()
