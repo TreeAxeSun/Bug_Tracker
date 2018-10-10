@@ -25,10 +25,10 @@ namespace BugTracker.Models
         public int ProjectId { get; set; }
         public virtual Project Project { get; set; }
 
-        public int OwnerUserId { get; set; }
+        public string OwnerUserId { get; set; }
         public virtual ApplicationUser OwnerUser { get; set; }
 
-        public int AssignedToUserId { get; set; }
+        public string AssignedToUserId { get; set; }
         public virtual ApplicationUser AssignedToUser { get; set; }
 
         public virtual ICollection<TicketComment> TicketComments { get; set; }
