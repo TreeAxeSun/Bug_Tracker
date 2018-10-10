@@ -55,10 +55,11 @@ namespace BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Description,Created,Updated,ProjectId,OwnerUserId,AssignedToUserId")] Ticket ticket)
+        public ActionResult Create([Bind(Include = "Id,Title,Description,Created,Updated,ProjectId,OwnerUserId,AssignedToUserId,TicketPriorityId,TicketStatusId,TicketTypeId")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
+                ticket.Created = DateTimeOffset.Now;
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -106,6 +107,7 @@ namespace BugTracker.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(ticket).State = EntityState.Modified;
+                ticket.Updated = DateTimeOffset.Now;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

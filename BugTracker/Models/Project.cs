@@ -11,17 +11,11 @@ namespace BugTracker.Models
         public string Name { get; set; }
 
         public virtual ICollection<ApplicationUser> Users { get; set; }
+        public virtual ICollection<Ticket> Tickets { get; set; }
 
         public Project()
         {
             Users = new HashSet<ApplicationUser>();
         }
-    }
-
-    public class NumofProjects
-    {
-        public int Id { get; set; }
-        public Array[] projectsArray { get; set; }
-        public int NumOfProjects { get; set; }
     }
 }
