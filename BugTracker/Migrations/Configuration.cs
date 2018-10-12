@@ -15,11 +15,10 @@ namespace BugTracker.Migrations
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(BugTracker.Models.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-
+            RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            
             if (!context.Roles.Any(r => r.Name == "Admin"))
             {
                 roleManager.Create(new IdentityRole { Name = "Admin" });
@@ -39,6 +38,8 @@ namespace BugTracker.Migrations
             {
                 roleManager.Create(new IdentityRole { Name = "Submitter" });
             }
+
+            UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
             if (!context.Users.Any(p => p.Email == "admin@tracker.com"))
             {
@@ -76,30 +77,33 @@ namespace BugTracker.Migrations
                 }, "Developer@1");
             }
 
-            if (!context.Users.Any(p => p.Email == "submitter@tracker.com"))
-            {
-                userManager.Create(new ApplicationUser
-                {
-                    UserName = "submitter@tracker.com",
-                    Email = "submitter@tracker.com",
-                    FirstName = "Yuphie",
-                    LastName = "Lee",
-                    FullName = "Yuphie Lee"
-                }, "Submitter@1");
-            }
-
-
-            var adminId = userManager.FindByEmail("admin@tracker.com").Id;
+            string adminId = userManager.FindByEmail("admin@tracker.com").Id;
             userManager.AddToRole(adminId, "Admin");
 
-            var PMId = userManager.FindByEmail("projectM@tracker.com").Id;
+            string PMId = userManager.FindByEmail("projectM@tracker.com").Id;
             userManager.AddToRole(PMId, "ProjectManager");
 
-            var developerId = userManager.FindByEmail("developer@tracker.com").Id;
+            string developerId = userManager.FindByEmail("developer@tracker.com").Id;
             userManager.AddToRole(developerId, "Developer");
 
-            var submitterId = userManager.FindByEmail("submitter@tracker.com").Id;
-            userManager.AddToRole(submitterId, "Submitter");
+
+            context.TicketPriorities.AddOrUpdate(p=>p.Name,
+               new TicketPriority { Name = "High" },
+               new TicketPriority { Name = "Medium" },
+               new TicketPriority { Name = "Low" },
+               new TicketPriority { Name = "Urgent" }
+            );
+            context.TicketTypes.AddOrUpdate(t=>t.Name,
+               new TicketType { Name = "Bug Fixes" },
+               new TicketType { Name = "Software Update" },
+               new TicketType { Name = "Database Error" }
+           );
+            context.TicketStatus.AddOrUpdate(s=>s.Name,
+              new TicketStatus { Name = "Not Started" },
+              new TicketStatus { Name = "Finished" },
+              new TicketStatus { Name = "On Hold" },
+              new TicketStatus { Name = "In Progress" }
+           );
         }
     }
 }

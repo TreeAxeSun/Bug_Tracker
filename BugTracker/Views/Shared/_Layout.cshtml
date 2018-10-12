@@ -23,6 +23,9 @@
     <!-- Custom Fonts -->
     <link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -51,10 +54,8 @@
 
             <!-- Top Menu Items -->
 
-            <ul class="nav navbar-right top-nav">
-                
-            </ul>
-            
+            <ul class="nav navbar-right top-nav"></ul>
+
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
@@ -75,19 +76,19 @@
                         <a href="@Url.Action("Index","Tickets")"><i class="fa fa-fw fa-ticket"></i>Tickets</a>
                     </li>
                     @*<li>
-                        <a href="@Url.Action("Contact","Home")"><i class="fa fa-fw fa-archive"></i> Contact</a>
-                    </li>*@
+                            <a href="@Url.Action("Contact","Home")"><i class="fa fa-fw fa-archive"></i> Contact</a>
+                        </li>*@
                     @*<li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="demo" class="collapse">
-                            <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                        </ul>
-                    </li>*@
+                            <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="demo" class="collapse">
+                                <li>
+                                    <a href="#">Dropdown Item</a>
+                                </li>
+                                <li>
+                                    <a href="#">Dropdown Item</a>
+                                </li>
+                            </ul>
+                        </li>*@
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -100,9 +101,6 @@
 
     </div>
     <!-- /#wrapper -->
-
-    @RenderSection("scripts", required: false)
-
     <!-- jQuery -->
     <script src="~/Scripts/jquery.js"></script>
 
@@ -110,9 +108,13 @@
     <script src="~/Scripts/bootstrap.min.js"></script>
 
     <!-- Morris Charts JavaScript -->
-    <script src="~/Scripts/plugins/morris/raphael.min.js"></script>
-    <script src="~/Scripts/plugins/morris/morris.min.js"></script>
-    <script src="~/Scripts/plugins/morris/morris-data.js"></script>
+    @*<script src="~/Scripts/plugins/morris/raphael.min.js"></script>
+        <script src="~/Scripts/plugins/morris/morris.min.js"></script>
+        <script src="~/Scripts/plugins/morris/morris-data.js"></script>*@
+
+    <!-- Datatables JavaScript -->
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+    @RenderSection("scripts", required: false)
 
 </body>
 
