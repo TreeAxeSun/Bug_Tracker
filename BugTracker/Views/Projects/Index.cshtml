@@ -33,7 +33,7 @@
             @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
             {
                 <a href="@Url.Action("Edit", "Projects", new { id = item.Id })">Edit | </a>
-                <a href="@Url.Action("Delete", "Projects", new { id = item.Id })">Delete | </a>
+                @*<a href="@Url.Action("Delete", "Projects", new { id = item.Id })">Delete | </a>*@
             }
             @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
             {
