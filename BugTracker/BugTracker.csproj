@@ -212,6 +212,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\TicketAssignViewModel.cs" />
     <Compile Include="Models\TicketPriority.cs" />
     <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -375,6 +376,11 @@
     <Content Include="Views\Tickets\Create.cshtml" />
     <Content Include="Views\Tickets\Edit.cshtml" />
     <Content Include="Views\Tickets\Delete.cshtml" />
+    <Content Include="Views\Tickets\AssignTickets.cshtml" />
+    <Content Include="Views\Tickets\AssignedProjectTicket.cshtml" />
+    <Content Include="Views\Tickets\DeveloperTicket.cshtml" />
+    <Content Include="Views\Tickets\SubmitterTicket.cshtml" />
+    <Content Include="Views\Projects\AssignedProject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,11 @@
+﻿@model BugTracker.Models.TicketAssignViewModel
+
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(p => p.Id)
+
+    @Html.ListBoxFor(p => p.SelectedDeveloper, Model.DeveloperList)
+
+    <input type="submit" value="Submit!" />
+}

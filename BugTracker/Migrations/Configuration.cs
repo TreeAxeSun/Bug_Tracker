@@ -47,45 +47,14 @@ namespace BugTracker.Migrations
                 {
                     UserName = "admin@tracker.com",
                     Email = "admin@tracker.com",
-                    FirstName = "YS",
-                    LastName = "Ahn",
-                    FullName = "YS Ahn"
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    FullName = "Admin"
                 }, "Adminuser@1");
-            }
-
-            if (!context.Users.Any(p => p.Email == "projectM@tracker.com"))
-            {
-                userManager.Create(new ApplicationUser
-                {
-                    UserName = "projectM@tracker.com",
-                    Email = "projectM@tracker.com",
-                    FirstName = "Sophie",
-                    LastName = "Lee",
-                    FullName = "Sophie Lee"
-                }, "ProjectM@1");
-            }
-
-            if (!context.Users.Any(p => p.Email == "developer@tracker.com"))
-            {
-                userManager.Create(new ApplicationUser
-                {
-                    UserName = "developer@tracker.com",
-                    Email = "developer@tracker.com",
-                    FirstName = "Delphie",
-                    LastName = "Lee",
-                    FullName = "Delphie Lee"
-                }, "Developer@1");
             }
 
             string adminId = userManager.FindByEmail("admin@tracker.com").Id;
             userManager.AddToRole(adminId, "Admin");
-
-            string PMId = userManager.FindByEmail("projectM@tracker.com").Id;
-            userManager.AddToRole(PMId, "ProjectManager");
-
-            string developerId = userManager.FindByEmail("developer@tracker.com").Id;
-            userManager.AddToRole(developerId, "Developer");
-
 
             context.TicketPriorities.AddOrUpdate(p=>p.Name,
                new TicketPriority { Name = "High" },

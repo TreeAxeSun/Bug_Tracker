@@ -25,14 +25,14 @@
 
     <!-- Datatables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
-    
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    @*User.Identity.IsAuthenticated &&*@
 </head>
 
 <body>
@@ -64,31 +64,96 @@
                         <a href="@Url.Action("Index","Home")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        @if (User.IsInRole("Admin"))
                         {
                             <a href="@Url.Action("Index", "ApplicationUsers")"><i class="fa fa-fw fa-male"></i> Change Roles</a>
                         }
                     </li>
                     <li>
-                        <a href="@Url.Action("Index","Projects")"><i class="fa fa-fw fa-archive"></i> Projects</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index","Tickets")"><i class="fa fa-fw fa-ticket"></i>Tickets</a>
-                    </li>
-                    @*<li>
-                            <a href="@Url.Action("Contact","Home")"><i class="fa fa-fw fa-archive"></i> Contact</a>
-                        </li>*@
-                    @*<li>
-                            <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-ticket"></i> Projects <i class="fa fa-fw fa-caret-down"></i></a>
                             <ul id="demo" class="collapse">
                                 <li>
-                                    <a href="#">Dropdown Item</a>
+                                    <a href="@Url.Action("Index","Projects")">All Projects</a>
                                 </li>
                                 <li>
-                                    <a href="#">Dropdown Item</a>
+                                    <a href="@Url.Action("AssignedProject","Projects")">My Projects </a>
                                 </li>
                             </ul>
-                        </li>*@
+                        }
+                    </li>
+                    <li>
+                        @if (User.IsInRole("ProjectManager"))
+                        {
+                            <a href="javascript:;" data-toggle="collapse" data-target="#demo1"><i class="fa fa-fw fa-ticket"></i> Projects <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="demo1" class="collapse">
+                                <li>
+                                    <a href="@Url.Action("Index","Projects")">All Projects</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("AssignedProject","Projects")">My Projects </a>
+                                </li>
+                            </ul>
+                        }
+                    </li>
+                    <li>
+                        @if (User.IsInRole("Developer") || User.IsInRole("Submitter"))
+                        {
+                            <a href="@Url.Action("AssignedProject","Projects")"><i class="fa fa-fw fa-archive"></i>My Projects</a>
+                        }
+                    </li>
+                    <li>
+                        @if (User.IsInRole("Submitter"))
+                        {
+                            <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-ticket"></i> Tickets <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="demo" class="collapse">
+                                <li>
+                                    <a href="@Url.Action("Index","Tickets")">All Tickets</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("SubmitterTicket","Tickets")">All Tickets which I own </a>
+                                </li>
+                            </ul>
+                        }
+                    </li>
+                    <li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a href="@Url.Action("Index", "Tickets")"><i class="fa fa-fw fa-ticket"></i> Tickets</a>
+                        }
+                    </li>
+                    <li>
+                        @if (User.IsInRole("ProjectManager"))
+                        {
+                            <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-ticket"></i> Tickets <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="demo" class="collapse">
+                                <li>
+                                    <a href="@Url.Action("Index","Tickets")">All Tickets</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("AssignedProjectTicket","Tickets")">All tickets assigned to my projects </a>
+                                </li>
+                            </ul>
+                        }
+                    </li>
+                    <li>
+                        @if (User.IsInRole("Developer"))
+                        {
+                            <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-ticket"></i> Tickets <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="demo" class="collapse">
+                                <li>
+                                    <a href="@Url.Action("Index","Tickets")">All Tickets</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("AssignedProjectTicket","Tickets")">All tickets assigned to my projects </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("DeveloperTicket","Tickets")">All tickets assigned to me</a>
+                                </li>
+                            </ul>
+                        }
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

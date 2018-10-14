@@ -7,7 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BugTracker.Models;
-
+using Microsoft.AspNet.Identity;
 
 namespace BugTracker.Controllers
 {
@@ -15,6 +15,22 @@ namespace BugTracker.Controllers
     public class ProjectsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        public ICollection<Project> AssignedProjects(string userId)
+        {
+            ApplicationUser user = db.Users.Find(userId);
+            var projects = user.Projects.ToList();
+            return (projects);
+        }
+
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        public ActionResult AssignedProject()
+        {
+            var userId = User.Identity.GetUserId();
+            var OwnProjects = AssignedProjects(userId);
+            return View("AssignedProject", OwnProjects.ToList());
+        }
+
 
         // GET: Projects
         public ActionResult Index()

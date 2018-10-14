@@ -30,6 +30,8 @@ namespace BugTracker.Models
         public ApplicationUser()
         {
             Projects = new HashSet<Project>();
+            AssignedTickets = new HashSet<Ticket>();
+            CreatedTickets = new HashSet<Ticket>();
             TicketComments = new HashSet<TicketComment>();
             TicketAttachments = new HashSet<TicketAttachment>();
         }
@@ -70,5 +72,7 @@ namespace BugTracker.Models
         public DbSet<TicketComment> TicketComments { get; set; }
 
         public DbSet<TicketAttachment> TicketAttachments { get; set; }
+
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketAssignViewModel> TicketAssignViewModels { get; set; }
     }
 }

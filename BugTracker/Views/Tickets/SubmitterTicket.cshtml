@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BugTracker.Models.Ticket>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "SubmitterTicket";
 }
 
 @section Scripts {
@@ -12,7 +12,7 @@
     </script>
 }
 
-<h2>Tickets</h2>
+    <h2>All Tickets which I own</h2>
 
 <p>
     @if (User.IsInRole("Submitter"))
@@ -57,7 +57,7 @@
             <th></th>
         </tr>
     </thead>
-    
+
     <tbody>
         @foreach (var item in Model)
         {
@@ -96,13 +96,13 @@
                     @if (User.IsInRole("Submitter"))
                     {
                         @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) @: |*@
-                        @*@Html.ActionLink("Details", "Details", new { id = item.Id }) @: |*@
-                        @*@Html.ActionLink("Delete", "Delete", new { id = item.Id }) @: |*@
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) @:
+                            @*@Html.ActionLink("Delete", "Delete", new { id = item.Id }) @: |*@
                     }
-                    @*@if (User.IsInRole("ProjectManager"))
+                    @if (User.IsInRole("ProjectManager"))
                     {
                         <a href="@Url.Action("AssignTickets", "Tickets", new { id = item.Id })">Assign Users</a>
-                    }*@
+                    }
                 </td>
             </tr>
         }
