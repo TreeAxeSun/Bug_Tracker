@@ -94,9 +94,64 @@
     </dl>
 </div>
 <p>
-    @if (User.IsInRole("ProjectManager") || User.IsInRole("Developer"))
+    @if (User.IsInRole("ProjectManager"))
     {
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) @: |
+        @Html.ActionLink("Back to List", "AssignedProjectTicket")
     }
-    @Html.ActionLink("Back to List", "Index")
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Back to List", "AdminTicket")
+    }
+    @if (User.IsInRole("Developer"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) @: |
+        @Html.ActionLink("Back to List", "DeveloperTicket")
+    }
+    @if (User.IsInRole("Submitter"))
+    {
+        @Html.ActionLink("Back to List", "SubmitterTicket")
+    }
 </p>
+<hr />
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div style="color: gold">
+        Submit your comment!
+    </div>
+    <div>
+        @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("TicketId", Model.Id)
+
+            <textarea name="Body" style="width: 400px"></textarea>
+            if (ViewBag.ErrorMessage != null)
+            {
+                <h5 style="color: darkslateblue">@ViewBag.ErrorMessage</h5>
+            }
+            <input type="submit" value="Submit" />
+        }
+    </div>
+}
+<div>
+    <h4 style="color: gold">Comments:</h4>
+    @foreach (var ticketComment in Model.TicketComments.OrderByDescending(c => c.Created))
+    {
+        <p style="color: darkslateblue">
+            <i class="fa fa-fw fa-arrow-circle-o-right"></i>@ticketComment.Comment  <br />by @ticketComment.User.FullName | @ticketComment.Created.ToString("dd/MM/yyyy HH:mm") |
+            @*@if (User.Identity.IsAuthenticated &&
+            (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer")))
+            {
+                <span>
+                    <a style="color: burlywood" href="@Url.Action("Edit", "Comments", new { id = ticketComment.Id })">Edit Comment</a> |
+                    <a style="color: burlywood" href="@Url.Action("Delete", "Comments", new { id = ticketComment.Id })">Delete Comment</a>
+                </span><br />
+            }*@
+        </p>
+    }
+</div>
+
+<hr />
+

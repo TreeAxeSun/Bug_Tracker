@@ -14,8 +14,16 @@ namespace BugTracker.Controllers
     {
         public ActionResult Index()
         {
+            //var myInt = 1;
+            //myInt.FormatWithMessage();
+            //FormatWithMessage(myInt);
             return View();
         }
+
+        //public string FormatWithMessage(int value)
+        //{
+        //    return $"My Numbe is: {value}";
+        //}
       
         public ActionResult About()
         {

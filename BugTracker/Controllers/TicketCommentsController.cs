@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BugTracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace BugTracker.Controllers
 {
@@ -17,7 +18,7 @@ namespace BugTracker.Controllers
         // GET: TicketComments
         public ActionResult Index()
         {
-            var ticketComments = db.TicketComments.Include(t => t.Ticket);
+            var ticketComments = db.TicketComments.Include(c => c.User).Include(c => c.Ticket);
             return View(ticketComments.ToList());
         }
 
@@ -33,30 +34,45 @@ namespace BugTracker.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(ticketComment);
         }
 
         // GET: TicketComments/Create
         public ActionResult Create()
         {
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FullName");
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title");
             return View();
         }
+
 
         // POST: TicketComments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Comment,Created,TicketId,UserId")] TicketComment ticketComment)
+        public ActionResult Create([Bind(Include = "Id,Created,TicketId")] TicketComment ticketComment, string Body, int TicketId)
         {
+
             if (ModelState.IsValid)
             {
+                if (string.IsNullOrWhiteSpace(Body))
+                {
+                    TempData["ErrorMessage"] = "Comment is required";
+                    return RedirectToAction("Details", "Tickets", new { id = TicketId });
+                }
+
+                ticketComment.Comment = Body;
+                ticketComment.Created = DateTimeOffset.Now;
+                ticketComment.UserId = User.Identity.GetUserId();
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details","Tickets", new { id = TicketId });
             }
 
+
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FullName", ticketComment.UserId);
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
             return View(ticketComment);
         }
@@ -73,7 +89,9 @@ namespace BugTracker.Controllers
             {
                 return HttpNotFound();
             }
+
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FullName", ticketComment.UserId);
             return View(ticketComment);
         }
 
@@ -82,15 +100,15 @@ namespace BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Comment,Created,TicketId,UserId")] TicketComment ticketComment)
+        public ActionResult Edit([Bind(Include = "Id,Comment,Created,Updated,TicketId,UserId")] TicketComment ticketComment)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(ticketComment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details","Tickets");
             }
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
+
             return View(ticketComment);
         }
 

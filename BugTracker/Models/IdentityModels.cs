@@ -25,7 +25,8 @@ namespace BugTracker.Models
 
         public virtual ICollection<TicketComment> TicketComments { get; set; }
         public virtual ICollection<TicketAttachment> TicketAttachments { get; set; }
-
+        public virtual ICollection<TicketHistory> TicketHistories { get; set; }
+        public virtual ICollection<TicketNotification> TicketNotifications { get; set; }
 
         public ApplicationUser()
         {
@@ -34,6 +35,8 @@ namespace BugTracker.Models
             CreatedTickets = new HashSet<Ticket>();
             TicketComments = new HashSet<TicketComment>();
             TicketAttachments = new HashSet<TicketAttachment>();
+            TicketHistories = new HashSet<TicketHistory>();
+            TicketNotifications = new HashSet<TicketNotification>();
         }
 
         
@@ -73,6 +76,10 @@ namespace BugTracker.Models
 
         public DbSet<TicketAttachment> TicketAttachments { get; set; }
 
-        public System.Data.Entity.DbSet<BugTracker.Models.TicketAssignViewModel> TicketAssignViewModels { get; set; }
+        public DbSet<TicketAssignViewModel> TicketAssignViewModels { get; set; }
+
+        public DbSet<TicketHistory> TicketHistories { get; set; }
+
+        public DbSet<TicketNotification> TicketNotifications { get; set; }
     }
 }

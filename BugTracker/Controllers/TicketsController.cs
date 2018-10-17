@@ -37,6 +37,17 @@ namespace BugTracker.Controllers
             return View("AssignedProjectTicket", OwnTickets.ToList());
         }
 
+        [Authorize(Roles = "Admin")]
+        public ActionResult AdminTicket()
+        {
+            var tickets = db.Tickets.Include(t => t.AssignedToUser)
+                                    .Include(t => t.OwnerUser)
+                                    .Include(t => t.TicketPriority)
+                                    .Include(t => t.TicketStatus)
+                                    .Include(t => t.TicketType);
+            return View("AdminTicket", tickets.ToList());
+        }
+
         [Authorize(Roles = "Submitter")]
         public ActionResult SubmitterTicket()
         {
@@ -88,8 +99,11 @@ namespace BugTracker.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(ticket);
         }
+
+
 
 
         // GET: Tickets/Create
