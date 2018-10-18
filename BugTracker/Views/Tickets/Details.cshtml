@@ -1,5 +1,7 @@
 ﻿@model BugTracker.Models.Ticket
 
+
+
 <div>
     <h4>Ticket</h4>
     <hr />
@@ -115,43 +117,172 @@
 </p>
 <hr />
 
-@if (User.Identity.IsAuthenticated)
-{
-    <div style="color: gold">
-        Submit your comment!
+<div class="row">
+    <!--Comments-->
+    <div class="col-lg-6">
+        @if (User.Identity.IsAuthenticated)
+        {
+        <h4 style="color: gold"><strong>COMMENTS: </strong></h4>
+            <div style="color: gold">
+                Submit your comment!
+            </div>
+            <div>
+                @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("TicketId", Model.Id)
+
+                    <textarea name="Body" style="width: 400px"></textarea>
+                    if (ViewBag.ErrorMessage != null)
+                    {
+                        <h5 style="color: darkslateblue">@ViewBag.ErrorMessage</h5>
+                    }
+                    <input type="submit" value="Submit" />
+                }
+            </div>
+        }
+        <br />
+        <div>
+            @foreach (var ticketComment in Model.TicketComments.OrderByDescending(c => c.Created))
+            {
+                <p style="color: darkslateblue">
+                    <i class="fa fa-fw fa-arrow-circle-o-right"></i>@ticketComment.Comment  <br />by @ticketComment.User.FullName | @ticketComment.Created.ToString("dd/MM/yyyy HH:mm") |
+                    @*@if (User.Identity.IsAuthenticated &&
+                    (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer")))
+                    {
+                        <span>
+                            <a style="color: burlywood" href="@Url.Action("Edit", "Comments", new { id = ticketComment.Id })">Edit Comment</a> |
+                            <a style="color: burlywood" href="@Url.Action("Delete", "Comments", new { id = ticketComment.Id })">Delete Comment</a>
+                        </span><br />
+                    }*@
+                </p>
+            }
+        </div>
     </div>
-    <div>
-        @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+
+    <!--Attachments-->
+    <div class="col-lg-6">
+        <h4 style="color: gold"><strong>ATTACHMENTS: </strong></h4>
+
+        <div style="color: gold">
+            Add your file!
+        </div>
+        @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("TicketId", Model.Id)
+            <input name="file" type="file" class="form-control" id="fileUpload" />
+            <input type="submit" value="Create" />
+        }
+        <br />
+        <div>
+           @foreach (var item in Model.TicketAttachments)
+           {
+                <div class="card my-4">
+                     <div class="card-body">
+                         <div class="media mb-4">
+                             <div class="media-body" style="color: darkslateblue">
+                                 <i class="fa fa-fw fa-arrow-circle-o-right"></i>File Name:
+                                 <a download href=@item.FilePath>
+                                     @Html.DisplayFor(model => item.FilePath.Split('/')[2].Split('.')[0])
+                                 </a>
+                                 <br />
+                                 by @item.User.FullName | @item.Created.ToString("dd/MM/yyyy HH:mm") |
+
+                                 @if (User.IsInRole("Admin"))
+                                 {
+                                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+                                 }
+                             </div>
+                         </div>
+                     </div>
+                </div>
+                <br />
+            }
+        </div>
+        
+    </div>
+</div>
+
+
+<hr />
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#historyTable').DataTable();
+        });
+    </script>
+}
+
+<h4 style="color: gold"><strong>HISTORY</strong></h4>
+
+<div>
+        @using (Html.BeginForm("Details", "Tickets", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
             @Html.Hidden("TicketId", Model.Id)
 
-            <textarea name="Body" style="width: 400px"></textarea>
-            if (ViewBag.ErrorMessage != null)
-            {
-                <h5 style="color: darkslateblue">@ViewBag.ErrorMessage</h5>
-            }
-            <input type="submit" value="Submit" />
+
+            <table id="historyTable" class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Ticket Title
+                        </th>
+                        <th>
+                            Modifier
+                        </th>
+                        <th>
+                            Property
+                        </th>
+                        <th>
+                            Old Value
+                        </th>
+                        <th>
+                            New Value
+                        </th>
+                        <th>
+                            Changed
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model.TicketHistories.OrderByDescending(c => c.Changed))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Ticket.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Property)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OldValue)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NewValue)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Changed)
+                            </td>
+                            <td>
+                                @if (User.IsInRole("ProjectManager"))
+                                {
+                                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) @:|
+                                 @Html.ActionLink("Details", "Details", new { id = item.Id }) @:|
+                                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
     </div>
-}
-<div>
-    <h4 style="color: gold">Comments:</h4>
-    @foreach (var ticketComment in Model.TicketComments.OrderByDescending(c => c.Created))
-    {
-        <p style="color: darkslateblue">
-            <i class="fa fa-fw fa-arrow-circle-o-right"></i>@ticketComment.Comment  <br />by @ticketComment.User.FullName | @ticketComment.Created.ToString("dd/MM/yyyy HH:mm") |
-            @*@if (User.Identity.IsAuthenticated &&
-            (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer")))
-            {
-                <span>
-                    <a style="color: burlywood" href="@Url.Action("Edit", "Comments", new { id = ticketComment.Id })">Edit Comment</a> |
-                    <a style="color: burlywood" href="@Url.Action("Delete", "Comments", new { id = ticketComment.Id })">Delete Comment</a>
-                </span><br />
-            }*@
-        </p>
-    }
-</div>
-
-<hr />
 

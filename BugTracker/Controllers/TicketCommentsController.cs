@@ -100,13 +100,13 @@ namespace BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Comment,Created,Updated,TicketId,UserId")] TicketComment ticketComment)
+        public ActionResult Edit([Bind(Include = "Id,Comment,Created,Updated,TicketId,UserId")] TicketComment ticketComment, int TicketId)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(ticketComment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details","Tickets");
+                return RedirectToAction("Details","Tickets", new { id = TicketId });
             }
 
             return View(ticketComment);

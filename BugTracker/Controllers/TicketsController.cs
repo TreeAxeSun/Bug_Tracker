@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -126,7 +127,7 @@ namespace BugTracker.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Submitter")]
-        public ActionResult Create([Bind(Include = "Id,Title,Description,ProjectId,AssignedToUserId,TicketPriorityId,TicketStatusId,TicketTypeId")] Ticket ticket)
+        public ActionResult Create([Bind(Include = "Id,Title,Description,ProjectId,AssignedToUserId,TicketPriorityId,TicketStatusId,TicketTypeId")] Ticket ticket, HttpPostedFileBase file, TicketAttachment ticketAttachment)
         {
             if (ModelState.IsValid)
             {
@@ -182,6 +183,9 @@ namespace BugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
+                var dateChanged = DateTimeOffset.Now;
+                var changes = new List<TicketHistory>();
+
                 Ticket ticketDb = db.Tickets.Where(t => t.Id == ticket.Id).FirstOrDefault();
                 ticketDb.Title = ticket.Title;
                 ticketDb.Description = ticket.Description;
@@ -194,8 +198,31 @@ namespace BugTracker.Controllers
                 //ticketDb.AssignedToUserId = User.Identity.GetUserId();
                 //db.Tickets.Add(ticket);
                 //db.Entry(ticket).State = EntityState.Modified;
+
+                var originalValues = db.Entry(ticketDb).OriginalValues;
+                var currentValues = db.Entry(ticketDb).CurrentValues;
+
+                foreach(var property in originalValues.PropertyNames)
+                {
+                    var originalValue = originalValues[property]?.ToString();
+                    var currentValue = currentValues[property]?.ToString();
+
+                    if(originalValue != currentValue)
+                    {
+                        var history = new TicketHistory();
+                        history.Changed = dateChanged;
+                        history.NewValue = GetValueFromKey(property, currentValue);
+                        history.OldValue = GetValueFromKey(property, originalValue);
+                        history.Property = property;
+                        history.TicketId = ticketDb.Id;
+                        history.UserId = User.Identity.GetUserId();
+                        changes.Add(history);
+                    }
+                }
+
+                db.TicketHistories.AddRange(changes);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Tickets");
+                return RedirectToAction("Index");
             }
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
             ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
@@ -203,7 +230,17 @@ namespace BugTracker.Controllers
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
+
             return View(ticket);
+        }
+
+        private string GetValueFromKey(string propertyName, string key)
+        {
+            if(propertyName == "TicketTypeId")
+            {
+                return db.TicketTypes.Find(Convert.ToInt32(key)).Name;
+            }
+            return key;
         }
 
         // GET: Tickets/Delete/5

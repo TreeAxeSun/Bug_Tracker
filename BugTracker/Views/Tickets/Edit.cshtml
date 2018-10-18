@@ -1,6 +1,6 @@
 ﻿@model BugTracker.Models.Ticket
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Tickets", FormMethod.Post, new { enctype = "Multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
