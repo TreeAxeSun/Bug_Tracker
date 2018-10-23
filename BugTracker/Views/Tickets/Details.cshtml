@@ -1,7 +1,5 @@
 ﻿@model BugTracker.Models.Ticket
 
-
-
 <div>
     <h4>Ticket</h4>
     <hr />
@@ -177,7 +175,7 @@
         <br />
 
         <div>
-           @foreach (var item in Model.TicketAttachments)
+           @foreach (var item in Model.TicketAttachments.OrderByDescending(c => c.Created))
            {
                 <div class="card my-4">
                      <div class="card-body">
