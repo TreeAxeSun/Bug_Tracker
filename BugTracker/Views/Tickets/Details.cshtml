@@ -122,7 +122,7 @@
     <div class="col-lg-6">
         @if (User.Identity.IsAuthenticated)
         {
-        <h4 style="color: gold"><strong>COMMENTS: </strong></h4>
+        <h4 style="color: gold"><strong>COMMENTS: @Model.TicketComments.Count()</strong></h4>
             <div style="color: gold">
                 Submit your comment!
             </div>
@@ -162,7 +162,7 @@
 
     <!--Attachments-->
     <div class="col-lg-6">
-        <h4 style="color: gold"><strong>ATTACHMENTS: </strong></h4>
+        <h4 style="color: gold"><strong>ATTACHMENTS: @Model.TicketAttachments.Count() </strong></h4>
 
         <div style="color: gold">
             Add your file!
@@ -175,6 +175,7 @@
             <input type="submit" value="Create" />
         }
         <br />
+
         <div>
            @foreach (var item in Model.TicketAttachments)
            {
