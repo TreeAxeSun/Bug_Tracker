@@ -240,6 +240,26 @@ namespace BugTracker.Controllers
             {
                 return db.TicketTypes.Find(Convert.ToInt32(key)).Name;
             }
+            if(propertyName == "ProjectId")
+            {
+                return db.Projects.Find(Convert.ToInt32(key)).Name;
+            }
+            if(propertyName == "TicketPriorityId")
+            {
+                return db.TicketPriorities.Find(Convert.ToInt32(key)).Name;
+            }
+            if(propertyName == "TicketStatusId")
+            {
+                return db.TicketStatus.Find(Convert.ToInt32(key)).Name;
+            }
+            if(propertyName == "AssignedToUserId")
+            {
+                return db.Users.Find(Convert.ToInt32(key)).FullName;
+            }
+            if(propertyName == "OwnerUserId")
+            {
+                return db.Users.Find(Convert.ToInt32(key)).FullName;
+            }
             return key;
         }
 
