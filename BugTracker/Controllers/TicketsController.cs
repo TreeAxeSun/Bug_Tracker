@@ -167,8 +167,8 @@ namespace BugTracker.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
+            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FullName", ticket.AssignedToUserId);
+            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FullName", ticket.OwnerUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
@@ -198,7 +198,7 @@ namespace BugTracker.Controllers
                 ticketDb.TicketStatusId = ticket.TicketStatusId;
                 ticketDb.Updated = DateTimeOffset.Now;
                 ticket.OwnerUserId = User.Identity.GetUserId();
-                //ticketDb.AssignedToUserId = ticket.AssignedToUserId;
+                ticket.AssignedToUserId = User.Identity.GetUserId();
                 //db.Tickets.Add(ticket);
                 //db.Entry(ticket).State = EntityState.Modified;
 
@@ -233,8 +233,8 @@ namespace BugTracker.Controllers
 
                 return RedirectToAction("Index");
             }
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
+            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FullName", ticket.AssignedToUserId);
+            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FullName", ticket.OwnerUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
@@ -263,11 +263,11 @@ namespace BugTracker.Controllers
             }
             if (propertyName == "AssignedToUserId")
             {
-                return db.Users.Find(Convert.ToInt32(key)).FullName;
+                return db.Users.Find(key).FullName;
             }
             if (propertyName == "OwnerUserId")
             {
-                return db.Users.Find(Convert.ToInt32(key)).FullName;
+                return db.Users.Find(key).FullName;
             }
             return key;
         }
