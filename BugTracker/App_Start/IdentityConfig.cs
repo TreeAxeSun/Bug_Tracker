@@ -49,6 +49,33 @@ namespace BugTracker
                 }
             };
         }
+
+        public void Notify(MailMessage message)
+        {
+            var username = WebConfigurationManager.AppSettings["username"];
+            var password = WebConfigurationManager.AppSettings["password"];
+            var host = WebConfigurationManager.AppSettings["host"];
+            int port = Convert.ToInt32(WebConfigurationManager.AppSettings["port"]);
+            using (var smtp = new SmtpClient()
+            {
+                Host = host,
+                Port = port,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(username, password)
+            })
+            {
+                try
+                {
+                    smtp.Send(message);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+        }
     }
 
     public class EmailService : IIdentityMessageService
@@ -65,6 +92,7 @@ namespace BugTracker
             return emailService.SendAsync(mailMessage);
         }
     }
+
 
     public class SmsService : IIdentityMessageService
     {

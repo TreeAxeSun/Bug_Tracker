@@ -5,7 +5,9 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using BugTracker.Models;
 using Microsoft.AspNet.Identity;
@@ -16,7 +18,8 @@ namespace BugTracker.Controllers
     [Authorize]
     public class TicketsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        public ApplicationDbContext db = new ApplicationDbContext();
+
 
         public ICollection<Project> AssignedProjects(string userId)
         {
@@ -195,7 +198,7 @@ namespace BugTracker.Controllers
                 ticketDb.TicketStatusId = ticket.TicketStatusId;
                 ticketDb.Updated = DateTimeOffset.Now;
                 ticket.OwnerUserId = User.Identity.GetUserId();
-                //ticketDb.AssignedToUserId = User.Identity.GetUserId();
+                //ticketDb.AssignedToUserId = ticket.AssignedToUserId;
                 //db.Tickets.Add(ticket);
                 //db.Entry(ticket).State = EntityState.Modified;
 
@@ -222,6 +225,12 @@ namespace BugTracker.Controllers
 
                 db.TicketHistories.AddRange(changes);
                 db.SaveChanges();
+
+                if (ticket.AssignedToUserId != null)
+                {
+                    Notify(ticket);
+                }
+
                 return RedirectToAction("Index");
             }
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
@@ -252,11 +261,11 @@ namespace BugTracker.Controllers
             {
                 return db.TicketStatus.Find(Convert.ToInt32(key)).Name;
             }
-            if(propertyName == "AssignedToUserId")
+            if (propertyName == "AssignedToUserId")
             {
                 return db.Users.Find(Convert.ToInt32(key)).FullName;
             }
-            if(propertyName == "OwnerUserId")
+            if (propertyName == "OwnerUserId")
             {
                 return db.Users.Find(Convert.ToInt32(key)).FullName;
             }
@@ -357,10 +366,34 @@ namespace BugTracker.Controllers
             //STEP 4: Save changes to the database
             
             db.SaveChanges();
+            
+            if (ticket.AssignedToUserId != null)
+            {
+                Notify(ticket);
+            }
 
             return RedirectToAction("Index");
         }
 
+        public static ApplicationDbContext db2 { get; set; }
+
+        public static void Notify(Ticket ticket)
+        {
+            db2 = new ApplicationDbContext();
+            var user = db2.Users.FirstOrDefault(p => p.Id == ticket.AssignedToUserId);
+
+
+            var email = new MailMessage(WebConfigurationManager.AppSettings["emailto"], user.Email)
+            {
+                Subject = "Notification mail",
+                Body = "Notification",
+                IsBodyHtml = true
+            };
+
+            var notifyEmail = new PersonalEmail();
+            notifyEmail.Notify(email);
+        }
+   
 
         protected override void Dispose(bool disposing)
         {
