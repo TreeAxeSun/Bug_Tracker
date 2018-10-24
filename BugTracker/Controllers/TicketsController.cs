@@ -386,7 +386,7 @@ namespace BugTracker.Controllers
             var email = new MailMessage(WebConfigurationManager.AppSettings["emailto"], user.Email)
             {
                 Subject = "Notification mail",
-                Body = "Notification",
+                Body = "Notification - check your ticket.",
                 IsBodyHtml = true
             };
 
