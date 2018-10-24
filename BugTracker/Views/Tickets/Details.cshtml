@@ -131,9 +131,9 @@
                     @Html.Hidden("TicketId", Model.Id)
 
                     <textarea name="Body" style="width: 400px"></textarea>
-                    if (ViewBag.ErrorMessage != null)
+                    if (TempData["ErrorMessage"] != null)
                     {
-                        <h5 style="color: darkslateblue">@ViewBag.ErrorMessage</h5>
+                        <h5 style="color: darkslateblue">@TempData["ErrorMessage"]</h5>
                     }
                     <input type="submit" value="Submit" />
                 }
