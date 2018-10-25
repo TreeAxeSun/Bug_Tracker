@@ -108,8 +108,6 @@ namespace BugTracker.Controllers
         }
 
 
-
-
         // GET: Tickets/Create
         [Authorize(Roles = "Submitter")]
         public ActionResult Create()

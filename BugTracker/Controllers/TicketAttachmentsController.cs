@@ -65,8 +65,14 @@ namespace BugTracker.Controllers
                     ticketAttachment.FilePath = "/Uploads/" + filename;
                     ticketAttachment.Created = DateTimeOffset.Now;
                     ticketAttachment.UserId = User.Identity.GetUserId();
+                    ticket.AssignedToUserId = User.Identity.GetUserId();
                     db.TicketAttachments.Add(ticketAttachment);
                     db.SaveChanges();
+
+                    if (ticket.AssignedToUserId != null)
+                    {
+                        TicketsController.Notify(ticket);
+                    }
                 }
 
                 return RedirectToAction("Details", "Tickets", new { id = TicketId });

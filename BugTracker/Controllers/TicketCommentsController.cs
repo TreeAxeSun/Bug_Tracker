@@ -15,6 +15,7 @@ namespace BugTracker.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+
         // GET: TicketComments
         public ActionResult Index()
         {
@@ -52,7 +53,7 @@ namespace BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Created,TicketId")] TicketComment ticketComment, string Body, int TicketId)
+        public ActionResult Create([Bind(Include = "Id,Created,TicketId")] TicketComment ticketComment, Ticket ticket, string Body, int TicketId)
         {
 
             if (ModelState.IsValid)
@@ -66,16 +67,24 @@ namespace BugTracker.Controllers
                 ticketComment.Comment = Body;
                 ticketComment.Created = DateTimeOffset.Now;
                 ticketComment.UserId = User.Identity.GetUserId();
+                ticket.AssignedToUserId = User.Identity.GetUserId();
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
+
+                if (ticket.AssignedToUserId != null)
+                {
+                    TicketsController.Notify(ticket);
+                }
+
                 return RedirectToAction("Details","Tickets", new { id = TicketId });
             }
-
 
             ViewBag.UserId = new SelectList(db.Users, "Id", "FullName", ticketComment.UserId);
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
             return View(ticketComment);
         }
+
+
 
         // GET: TicketComments/Edit/5
         public ActionResult Edit(int? id)
