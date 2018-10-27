@@ -89,8 +89,8 @@
                     <li>
                         @if (User.IsInRole("Admin"))
                         {
-                            <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-ticket"></i> Projects <i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul id="demo" class="collapse">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-ticket"></i> Projects <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="demo2" class="collapse">
                                 <li>
                                     <a href="@Url.Action("Index","Projects")">All Projects</a>
                                 </li>
@@ -123,8 +123,8 @@
                     <li>
                         @if (User.IsInRole("Submitter"))
                         {
-                            <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-ticket"></i> Tickets <i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul id="demo" class="collapse">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#demo3"><i class="fa fa-fw fa-ticket"></i> Tickets <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="demo3" class="collapse">
                                 <li>
                                     <a href="@Url.Action("Index","Tickets")">All Tickets</a>
                                 </li>
@@ -143,8 +143,8 @@
                     <li>
                         @if (User.IsInRole("ProjectManager"))
                         {
-                            <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-ticket"></i> Tickets <i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul id="demo" class="collapse">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#demo4"><i class="fa fa-fw fa-ticket"></i> Tickets <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="demo4" class="collapse">
                                 <li>
                                     <a href="@Url.Action("Index","Tickets")">All Tickets</a>
                                 </li>
@@ -157,8 +157,8 @@
                     <li>
                         @if (User.IsInRole("Developer"))
                         {
-                            <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-ticket"></i> Tickets <i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul id="demo" class="collapse">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#demo5"><i class="fa fa-fw fa-ticket"></i> Tickets <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="demo5" class="collapse">
                                 <li>
                                     <a href="@Url.Action("Index","Tickets")">All Tickets</a>
                                 </li>

@@ -271,12 +271,12 @@
                                 @Html.DisplayFor(modelItem => item.Changed)
                             </td>
                             <td>
-                                @if (User.IsInRole("Admin"))
+                                @*@if (User.IsInRole("Admin"))
                                 {
                                     <a href="@Url.Action("Edit","Tickets", new { id = item.Id })">Edit</a> @: |
                                     <a href="@Url.Action("Detail","Tickets", new { id = item.Id })">Detail</a> @: |
                                     <a href="@Url.Action("Delete","Tickets", new { id = item.Id })">Delete</a> @: |
-                                }
+                                }*@
                             </td>
                         </tr>
                     }

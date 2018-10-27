@@ -59,7 +59,7 @@
     </thead>
 
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.OrderByDescending(t=>t.Updated))
         {
             <tr>
                 <td>
@@ -101,7 +101,7 @@
                     }
                     @if (User.IsInRole("ProjectManager"))
                     {
-                        <a href="@Url.Action("AssignTickets", "Tickets", new { id = item.Id })">Assign Users</a>
+                        <a href="@Url.Action("AssignTickets", "Tickets", new { id = item.Id })">Assign Ticket</a>
                     }
                 </td>
             </tr>
