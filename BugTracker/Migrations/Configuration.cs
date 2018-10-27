@@ -53,8 +53,69 @@ namespace BugTracker.Migrations
                 }, "Adminuser@1");
             }
 
+            if (!context.Users.Any(p => p.Email == "demoadmin@tracker.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "demoadmin@tracker.com",
+                    Email = "demoadmin@tracker.com",
+                    FirstName = "DemoAdmin",
+                    LastName = "DemoAdmin",
+                    FullName = "DemoAdmin"
+                }, "1234qweR!");
+            }
+
+            if (!context.Users.Any(p => p.Email == "demodev@tracker.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "demodev@tracker.com",
+                    Email = "demodev@tracker.com",
+                    FirstName = "DemoDeveloper",
+                    LastName = "DemoDeveloper",
+                    FullName = "DemoDeveloper"
+                }, "1234qweR!");
+            }
+
+            if (!context.Users.Any(p => p.Email == "demopro@tracker.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "demopro@tracker.com",
+                    Email = "demopro@tracker.com",
+                    FirstName = "DemoProjectManager",
+                    LastName = "DemoProjectManager",
+                    FullName = "DemoProjectManager"
+                }, "1234qweR!");
+            }
+
+            if (!context.Users.Any(p => p.Email == "demosub@tracker.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "demosub@tracker.com",
+                    Email = "demosub@tracker.com",
+                    FirstName = "DemoSubmitter",
+                    LastName = "DemoSubmitter",
+                    FullName = "DemoSubmitter"
+                }, "1234qweR!");
+            }
+
             string adminId = userManager.FindByEmail("admin@tracker.com").Id;
             userManager.AddToRole(adminId, "Admin");
+
+            string demoAdminId = userManager.FindByEmail("demoadmin@tracker.com").Id;
+            userManager.AddToRole(demoAdminId, "Admin");
+
+            string demodevId = userManager.FindByEmail("demodev@tracker.com").Id;
+            userManager.AddToRole(demodevId, "Developer");
+
+            string demoproId = userManager.FindByEmail("demopro@tracker.com").Id;
+            userManager.AddToRole(demoproId, "ProjectManager");
+
+            string demosubId = userManager.FindByEmail("demosub@tracker.com").Id;
+            userManager.AddToRole(demosubId, "Submitter");
+
 
             context.TicketPriorities.AddOrUpdate(p=>p.Name,
                new TicketPriority { Name = "High" },

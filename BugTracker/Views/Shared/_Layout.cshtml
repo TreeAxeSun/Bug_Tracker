@@ -64,6 +64,23 @@
                         <a href="@Url.Action("Index","Home")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-ticket"></i> Demo Login <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo" class="collapse">
+                            <li>
+                                <a href="@Url.Action("DemoAdmin","Account")">Admin</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("DemoProjectManager","Account")">Project Manager</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("DemoDeveloper","Account")">Developer</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("DemoSubmitter","Account")">Submitter</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
                         @if (User.IsInRole("Admin"))
                         {
                             <a href="@Url.Action("Index", "ApplicationUsers")"><i class="fa fa-fw fa-male"></i> Change Roles</a>

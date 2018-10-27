@@ -29,7 +29,7 @@ namespace BugTracker.Controllers
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
+        
         public ApplicationSignInManager SignInManager
         {
             get
@@ -54,6 +54,64 @@ namespace BugTracker.Controllers
             }
         }
 
+        //DemoLogin
+        private UserManager<ApplicationUser> Manager { get; set; }
+        
+        [AllowAnonymous]
+        public ActionResult DemoAdmin()
+        {
+            var db = new ApplicationDbContext();
+            Manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
+            var user = Manager.FindByEmail("demoadmin@tracker.com");
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            
+            SignInManager.SignIn(user, false, false);
+            return RedirectToAction("Index", "Home");
+        }
+        
+        public ActionResult DemoProjectManager()
+        {
+            var db = new ApplicationDbContext();
+            Manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
+            var user = Manager.FindByEmail("demopro@tracker.com");
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+
+            SignInManager.SignIn(user, false, false);
+            return RedirectToAction("Index", "Home");
+        }
+        
+        public ActionResult DemoDeveloper()
+        {
+            var db = new ApplicationDbContext();
+            Manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
+            var user = Manager.FindByEmail("demodev@tracker.com");
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+
+            SignInManager.SignIn(user, false, false);
+            return RedirectToAction("Index", "Home");
+        }
+        
+        public ActionResult DemoSubmitter()
+        {
+            var db = new ApplicationDbContext();
+            Manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
+            var user = Manager.FindByEmail("demosub@tracker.com");
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+
+            SignInManager.SignIn(user, false, false);
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -67,6 +125,8 @@ namespace BugTracker.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
+
+
 
         //
         // POST: /Account/Login
