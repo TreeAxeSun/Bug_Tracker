@@ -12,19 +12,19 @@ namespace BugTracker.Controllers
 {
     public class HomeController : Controller
     {
+        public ApplicationDbContext db = new ApplicationDbContext();
+
         public ActionResult Index()
         {
-            //var myInt = 1;
-            //myInt.FormatWithMessage();
-            //FormatWithMessage(myInt);
-            return View();
+            var Dashboards = new Dashboard();
+
+            Dashboards.AllUsers = db.Users.Count();
+            Dashboards.AllTickets = db.Tickets.Count();
+            Dashboards.AllProjects = db.Projects.Count();
+
+            return View(Dashboards);
         }
 
-        //public string FormatWithMessage(int value)
-        //{
-        //    return $"My Numbe is: {value}";
-        //}
-      
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

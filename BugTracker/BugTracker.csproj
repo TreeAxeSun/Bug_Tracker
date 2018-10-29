@@ -213,6 +213,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Dashboard.cs" />
     <Compile Include="Models\TicketAssignViewModel.cs" />
     <Compile Include="Models\TicketHistory.cs" />
     <Compile Include="Models\TicketNotification.cs" />

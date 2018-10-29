@@ -1,5 +1,4 @@
-﻿@model IEnumerable<BugTracker.Models.Project>
-
+﻿@model BugTracker.Models.Dashboard
 
 <div class="container-fluid">
 
@@ -17,7 +16,32 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-3 col-md-6">
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="col-lg-3 col-md-4">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-users fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div>All USERS</div>
+                                <div class="huge">@Html.DisplayFor(p => p.AllUsers)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="@Url.Action("Index", "ApplicationUsers")">
+                        <div class="panel-footer">
+                            <span class="pull-left">View Details</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+        <div class="col-lg-3 col-md-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="row">
@@ -25,11 +49,12 @@
                             <i class="fa fa-archive fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div>MY PROJECTS</div>
+                            <div>ALL PROJECTS</div>
+                            <div class="huge">@Html.DisplayFor(p => p.AllProjects)</div>
                         </div>
                     </div>
                 </div>
-                <a href="@Url.Action("AssignedProject", "Projects")">
+                <a href="@Url.Action("Index", "Projects")">
                     <div class="panel-footer">
                         <span class="pull-left">View Details</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -38,7 +63,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6">
+        <div class="col-lg-3 col-md-4">
             <div class="panel panel-green">
                 <div class="panel-heading">
                     <div class="row">
@@ -47,6 +72,7 @@
                         </div>
                         <div class="col-xs-9 text-right">
                             <div>All TICKETS</div>
+                            <div class="huge">@Html.DisplayFor(p => p.AllTickets)</div>
                         </div>
                     </div>
                 </div>
@@ -59,7 +85,6 @@
                 </a>
             </div>
         </div>
-
     </div>
-
+</div>
     <!-- /.container-fluid -->
