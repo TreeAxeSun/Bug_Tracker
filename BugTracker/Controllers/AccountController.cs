@@ -57,7 +57,6 @@ namespace BugTracker.Controllers
         //DemoLogin
         private UserManager<ApplicationUser> Manager { get; set; }
         
-        [AllowAnonymous]
         public ActionResult DemoAdmin()
         {
             var db = new ApplicationDbContext();
