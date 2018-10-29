@@ -56,7 +56,7 @@ namespace BugTracker.Controllers
 
         //DemoLogin
         private UserManager<ApplicationUser> Manager { get; set; }
-        
+        [AllowAnonymous]
         public ActionResult DemoAdmin()
         {
             var db = new ApplicationDbContext();
@@ -69,7 +69,7 @@ namespace BugTracker.Controllers
             SignInManager.SignIn(user, false, false);
             return RedirectToAction("Index", "Home");
         }
-        
+        [AllowAnonymous]
         public ActionResult DemoProjectManager()
         {
             var db = new ApplicationDbContext();
@@ -82,7 +82,7 @@ namespace BugTracker.Controllers
             SignInManager.SignIn(user, false, false);
             return RedirectToAction("Index", "Home");
         }
-        
+        [AllowAnonymous]
         public ActionResult DemoDeveloper()
         {
             var db = new ApplicationDbContext();
@@ -95,7 +95,7 @@ namespace BugTracker.Controllers
             SignInManager.SignIn(user, false, false);
             return RedirectToAction("Index", "Home");
         }
-        
+        [AllowAnonymous]
         public ActionResult DemoSubmitter()
         {
             var db = new ApplicationDbContext();
@@ -108,7 +108,6 @@ namespace BugTracker.Controllers
             SignInManager.SignIn(user, false, false);
             return RedirectToAction("Index", "Home");
         }
-
 
 
         //
